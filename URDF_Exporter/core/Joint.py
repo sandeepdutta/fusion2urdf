@@ -172,7 +172,10 @@ def make_joints_dict(root, msg):
         if joint.occurrenceTwo.component.name == 'base_link':
             joint_dict['parent'] = 'base_link'
         else:
-            joint_dict['parent'] = re.sub('[ :()]', '_', joint.occurrenceTwo.name)
+            occurrence = joint.occurrenceTwo
+            while (occurrence.component != root and occurrence.component.name != 'base_link'):
+                occurrence = occurrence.assemblyContext
+            joint_dict['parent'] = re.sub('[ :()]', '_', occurrence.component.name)
         joint_dict['child'] = re.sub('[ :()]', '_', joint.occurrenceOne.name)
         
         
