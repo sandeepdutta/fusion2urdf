@@ -173,7 +173,8 @@ def make_joints_dict(root, msg):
             joint_dict['parent'] = 'base_link'
         else:
             occurrence = joint.occurrenceTwo
-            while (occurrence.component != root and occurrence.component.name != 'base_link'):
+            # navigate to the highest level component
+            while (occurrence.assemblyContext != None):
                 occurrence = occurrence.assemblyContext
             joint_dict['parent'] = re.sub('[ :()]', '_', occurrence.component.name)
         joint_dict['child'] = re.sub('[ :()]', '_', joint.occurrenceOne.name)
